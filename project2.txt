@@ -1,0 +1,22 @@
+CS452/EE465 Computer Graphics Spring 2015
+Project #2
+due: Thursday, 4/23/15 at midnight
+
+The second project will be a 3D WebGL application. You may work on this project in teams of two. One possibility is
+to write a 3D game, but alternatives will be considered.  In all cases, a written proposal must be approved by 
+Prof. Searleman no later than Tuesday, April 7th.
+
+Objectives:
+-Use 3D Shapes
+-Shapes move in 3D
+-There is user interaction
+-There is lighting and texturing
+
+
+Requirements:
+1. vertex coordinates are not in the default range - a (non identity) Model-View matrix is required.
+2. use webgl-utils.js, initShaders.js and MV.js from Angel
+3. three files are required in the solution: project2.html, project2.js and project2.README.txt. The
+project2.README.txt file will contain your name(s) and the date along with a brief description of your
+project. Be sure to include complete details of how to interact with your application. As before, all 
+files should contain a comment including your name(s) and date.
