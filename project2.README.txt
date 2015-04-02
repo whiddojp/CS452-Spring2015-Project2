@@ -1,0 +1,3 @@
+name, date, description
+
+be sure to include complete details of how to interact with your application
