@@ -19,4 +19,4 @@ Requirements:
 3. three files are required in the solution: project2.html, project2.js and project2.README.txt. The
 project2.README.txt file will contain your name(s) and the date along with a brief description of your
 project. Be sure to include complete details of how to interact with your application. As before, all 
-files should contain a comment including your name(s) and date.
+files should contain a comment including your name(s) and date. 
