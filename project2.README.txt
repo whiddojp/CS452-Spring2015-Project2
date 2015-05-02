@@ -1,3 +1,18 @@
-name, date, description
+John Whiddon      5/1/2015       Project2
+Marcy Lorenzi     Partner
 
-be sure to include complete details of how to interact with your application
+Watch the Fox play with the Box and Avoid the DEATH GLARE.
+
+Interaction:
+Use the A S W & D keys to move around in order to get the Squares, or objectives
+Avoid Touching the flying Face, you will die.
+If you press 1 after touching the lava or getting hit (dying) you restart (Saves highscore, resets points, resets positioning)
+If you press F9 or F8 if turns the Lighting on and off, respectively.
+
+Scoring System:
+For every objective you acquire you recieve a point.
+
+Win or Lose?
+If you touch the the red area (Almost reminds you of lava right?) then you lose.
+If you touch the the flying face then you lose.
+If you make it to 20 points you win, but can continue in order to painstakingly crawl ahead of the high score.
