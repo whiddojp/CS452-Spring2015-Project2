@@ -1,7 +1,45 @@
 <!DOCTYPE html>
 <html>
-<meta http-equiv="Content-Type" content="text/html;charset=utf-8" >
-<title>Cats and Mice</title>
+<head>
+<title>Robot Fox</title> 
+<style>
+html{
+ background-color:#000;
+ width:100%;
+ height:100%;
+	
+}
+body{
+ width:100%;
+ height:100%;
+}
+	#text{
+		float:left;
+		background-color:#e6e6e6;
+		width:40%;
+		height:53%;
+		padding:5%;
+		
+		background: #ffffff; /* Old browsers */
+		background: -moz-linear-gradient(top,  #ffffff 0%, #000000 100%); /* FF3.6+ */
+		background: -webkit-gradient(linear, left top, left bottom, color-stop(0%,#ffffff), color-stop(100%,#000000)); /* Chrome,Safari4+ */
+		background: -webkit-linear-gradient(top,  #ffffff 0%,#000000 100%); /* Chrome10+,Safari5.1+ */
+		background: -o-linear-gradient(top,  #ffffff 0%,#000000 100%); /* Opera 11.10+ */
+		background: -ms-linear-gradient(top,  #ffffff 0%,#000000 100%); /* IE10+ */
+		background: linear-gradient(to bottom,  #ffffff 0%,#000000 100%); /* W3C */
+		filter: progid:DXImageTransform.Microsoft.gradient( startColorstr='#ffffff', endColorstr='#000000',GradientType=0 ); /* IE6-9 */
+	}
+	#game{
+		width:50%;
+		height:width;
+		float:left;	
+	}
+	#gl-canvas{
+		height:100%;
+		width:100%;	
+	}
+	
+</style>
 
 <script type="text/javascript" src="webgl-debug.js"></script>
 <script type="text/javascript" src="webgl-utils.js"></script>
@@ -11,19 +49,38 @@
 
 <script id="vertex-shader" type="x-shader/x-vertex">
     attribute vec3 aVertexPosition;
+	attribute vec3 aVertexNormal;
     attribute vec2 aTextureCoord;
-	attribute  vec4 vPosition;
-
+	varying vec2 vTextureCoord;
+	
     uniform mat4 uMVMatrix;
     uniform mat4 uPMatrix;
+    uniform mat3 uNMatrix;
+	
+    uniform vec3 ambientColor;	
+	
+	uniform vec3 focusDirection;
+    uniform vec3 lightColor; 
+	
+	uniform bool lightChoice; 
 
-    varying vec2 vTextureCoord;
+    varying vec3 lightStrength;	
+	
+	
+void main() {
+	vec4 modelViewLoc = uMVMatrix * vec4(aVertexPosition, 1.0);
+	gl_Position = uPMatrix * modelViewLoc;
+	vTextureCoord = aTextureCoord;
 
-void main()
-{
-        gl_Position = uPMatrix * uMVMatrix * vec4(aVertexPosition, 1.0);
-        vTextureCoord = aTextureCoord;
-		//fColor = vColor;
+	if (!lightChoice) {
+		lightStrength = vec3(1.0, 1.0, 1.0);		// Possibly have an edit light strength feature?
+	} else {
+		vec3 lightDirection = normalize(focusDirection);
+
+		vec3 lightNormal = uNMatrix * aVertexNormal;
+		float focusedLight = max( dot( lightNormal, focusDirection ), 0.0);
+		lightStrength = ambientColor + lightColor * focusedLight; 
+	}		
 }
 </script>
 
@@ -31,20 +88,37 @@ void main()
 precision mediump float;
 
     varying vec2 vTextureCoord;
-    uniform sampler2D uSampler;
-	//varying vec4 fColor;
-	
-void main()
-{
-	gl_FragColor = texture2D(uSampler, vec2(vTextureCoord.s, vTextureCoord.t));
+    varying vec3 lightStrength;
+	uniform sampler2D uSampler;
+
+void main() {
+	vec4 texture = texture2D(uSampler, vec2(vTextureCoord.s, vTextureCoord.t));
+	gl_FragColor = vec4(texture.rgb * lightStrength, texture.a);
 }
 </script>
 
-</head>   
+</head>
 
 <body>
-<canvas id="gl-canvas" width="512" height="512">
-Oops ... your browser doesn't support the HTML5 canvas element
-</canvas>
+
+<div id=game>
+    <canvas id="gl-canvas" width="500" height="500">
+    Oops ... your browser doesn't support the HTML5 canvas element
+    </canvas>
+    <div id="lava"> </div>
+
+</div>
+<div id="text">    
+    <p> Hey! The red stuff is lava, it melts things....like you. Stay out of it! Oh btw there is this weird...thing here, I'd avoid that. Have fun :) </p>
+    <p id="status">Status: Alive and Walking</p>
+    <p id="score">Score: 0</p>
+    <p id="Hscore">High Score: 0</p>
+	<p> You Win at 50. </p>
+	<p> WASD for movement, Page up/down controls vertical angle, 1 controls reset upon death, F9:F8 turn on/off lighting, respectively. </p>
+
+</div>
+
+
+
 </body>
 </html>
